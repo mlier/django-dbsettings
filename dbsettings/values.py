@@ -356,7 +356,7 @@ class DateTimeValue(Value):
     def get_db_prep_save(self, value):
         if isinstance(value, six.string_types):
             return value
-        return value.strftime(self._formats[0])
+        return value.strftime(self._formats[1])
 
     def to_python(self, value):
         if isinstance(value, datetime.datetime):

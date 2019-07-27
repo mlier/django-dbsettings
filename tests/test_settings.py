@@ -15,6 +15,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sites',
     'django.contrib.sessions',
+    'django.contrib.messages',
     # Our app and it's test app.
     'dbsettings',
     'tests',

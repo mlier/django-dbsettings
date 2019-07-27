@@ -52,8 +52,8 @@ class SettingsTestCase(test.TestCase):
                                   'a@b.com,c@d.com,e@f.com')
         loading.set_setting_value(MODULE_NAME, 'Populated', 'date', '2012-06-28')
         loading.set_setting_value(MODULE_NAME, 'Populated', 'time', '16:19:17')
-        loading.set_setting_value(MODULE_NAME, 'Populated', 'datetime',
-                                  '2012-06-28 16:19:17')
+        loading.set_setting_value(MODULE_NAME, 'Populated', 'datetime', '2012-06-28 16:19:17')
+        loading.set_setting_value(MODULE_NAME, 'Populated', 'datetimens', '2019-07-25 04:44:22.445793')
         loading.set_setting_value(MODULE_NAME, '', 'boolean', False)
         loading.set_setting_value(MODULE_NAME, '', 'integer', 14)
         loading.set_setting_value(MODULE_NAME, '', 'string', 'Module')
@@ -63,6 +63,7 @@ class SettingsTestCase(test.TestCase):
         loading.set_setting_value(MODULE_NAME, '', 'date', '2011-05-27')
         loading.set_setting_value(MODULE_NAME, '', 'time', '15:18:16')
         loading.set_setting_value(MODULE_NAME, '', 'datetime', '2011-05-27 15:18:16')
+        loading.set_setting_value(MODULE_NAME, '', 'datetimens', '2019-07-25 04:44:22.445793')
         loading.set_setting_value(MODULE_NAME, 'Combined', 'boolean', False)
         loading.set_setting_value(MODULE_NAME, 'Combined', 'integer', 1138)
         loading.set_setting_value(MODULE_NAME, 'Combined', 'string', 'THX')
@@ -73,6 +74,7 @@ class SettingsTestCase(test.TestCase):
         loading.set_setting_value(MODULE_NAME, 'Combined', 'date', '2010-04-26')
         loading.set_setting_value(MODULE_NAME, 'Combined', 'time', '14:17:15')
         loading.set_setting_value(MODULE_NAME, 'Combined', 'datetime', '2010-04-26 14:17:15')
+        loading.set_setting_value(MODULE_NAME, 'Combined', 'datetimens', '2019-07-25 04:44:22.445793')
         loading.set_setting_value(MODULE_NAME, 'Combined', 'enabled', True)
 
     def test_settings(self):
@@ -87,6 +89,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Populated.settings.date, datetime.date(2012, 6, 28))
         self.assertEqual(Populated.settings.time, datetime.time(16, 19, 17))
         self.assertEqual(Populated.settings.datetime, datetime.datetime(2012, 6, 28, 16, 19, 17))
+        self.assertEqual(Populated.settings.datetimens, datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
 
         # Module settings are kept separate from model settings
         self.assertEqual(module_settings.boolean, False)
@@ -97,6 +100,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(module_settings.date, datetime.date(2011, 5, 27))
         self.assertEqual(module_settings.time, datetime.time(15, 18, 16))
         self.assertEqual(module_settings.datetime, datetime.datetime(2011, 5, 27, 15, 18, 16))
+        self.assertEqual(module_settings.datetimens, datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
 
         # Settings can be added together
         self.assertEqual(Combined.settings.boolean, False)
@@ -108,6 +112,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Combined.settings.date, datetime.date(2010, 4, 26))
         self.assertEqual(Combined.settings.time, datetime.time(14, 17, 15))
         self.assertEqual(Combined.settings.datetime, datetime.datetime(2010, 4, 26, 14, 17, 15))
+        self.assertEqual(Combined.settings.datetimens, datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
 
         # Settings not in the database use empty defaults
         self.assertEqual(Unpopulated.settings.boolean, False)
@@ -126,14 +131,15 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Defaults.settings.date, datetime.date(2012, 3, 14))
         self.assertEqual(Defaults.settings.time, datetime.time(12, 3, 14))
         self.assertEqual(Defaults.settings.datetime, datetime.datetime(2012, 3, 14, 12, 3, 14))
+        self.assertEqual(Defaults.settings.datetimens, datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
 
         # Settings should be retrieved in the order of definition
         self.assertEqual(Populated.settings.keys(),
                          ['boolean', 'integer', 'string', 'list_semi_colon',
-                          'list_comma', 'date', 'time', 'datetime'])
+                          'list_comma', 'date', 'time', 'datetime', 'datetimens'])
         self.assertEqual(Combined.settings.keys(),
                          ['boolean', 'integer', 'string', 'list_semi_colon',
-                          'list_comma', 'date', 'time', 'datetime', 'enabled'])
+                          'list_comma', 'date', 'time', 'datetime', 'datetimens', 'enabled'])
 
         # Values should be coerced to the proper Python types
         self.assertTrue(isinstance(Populated.settings.boolean, bool))
@@ -159,6 +165,8 @@ class SettingsTestCase(test.TestCase):
                                   datetime.time(1, 2, 3))
         loading.set_setting_value(MODULE_NAME, 'Unpopulated', 'datetime',
                                   datetime.datetime(1912, 6, 23, 1, 2, 3))
+        loading.set_setting_value(MODULE_NAME, 'Unpopulated', 'datetimens',
+                                  datetime.datetime(1920, 7, 25, 14, 44, 22, 445793))
 
         self.assertEqual(Unpopulated.settings.boolean, True)
         self.assertEqual(Unpopulated.settings.integer, 13)
@@ -168,6 +176,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Unpopulated.settings.date, datetime.date(1912, 6, 23))
         self.assertEqual(Unpopulated.settings.time, datetime.time(1, 2, 3))
         self.assertEqual(Unpopulated.settings.datetime, datetime.datetime(1912, 6, 23, 1, 2, 3))
+        self.assertEqual(Unpopulated.settings.datetimens, datetime.datetime(1920, 7, 25, 14, 44, 22, 445793))
 
         # Updating settings with defaults
         loading.set_setting_value(MODULE_NAME, 'Defaults', 'boolean', False)
@@ -189,6 +198,7 @@ class SettingsTestCase(test.TestCase):
         Unpopulated.settings.date = datetime.date(1939, 9, 1)
         Unpopulated.settings.time = '03:47:00'
         Unpopulated.settings.datetime = datetime.datetime(1939, 9, 1, 3, 47, 0)
+        Unpopulated.settings.datetimens = datetime.datetime(1920, 7, 25, 4, 44, 22, 445793)
         # Test correct stripping while we're at it.
         Unpopulated.settings.list_semi_colon = 'ee@ff.com; gg@hh.com'
         Unpopulated.settings.list_comma = 'ee@ff.com ,gg@hh.com'
@@ -200,6 +210,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Unpopulated.settings.date, datetime.date(1939, 9, 1))
         self.assertEqual(Unpopulated.settings.time, datetime.time(3, 47, 0))
         self.assertEqual(Unpopulated.settings.datetime, datetime.datetime(1939, 9, 1, 3, 47, 0))
+        self.assertEqual(Unpopulated.settings.datetimens, datetime.datetime(1920, 7, 25, 4, 44, 22, 445793))
 
         # Test non-required settings
         self.assertEqual(NonReq.non_req.integer, None)
@@ -297,6 +308,7 @@ class SettingsTestCase(test.TestCase):
             '%s__Editable__date' % MODULE_NAME: '3-77-99',
             '%s__Editable__time' % MODULE_NAME: 'abc',
             '%s__Editable__datetime' % MODULE_NAME: '',
+            '%s__Editable__datetimens' % MODULE_NAME: '',
         }
         response = self.client.post(site_form, data)
         self.assertFormError(response, 'form', '%s__Editable__integer' % MODULE_NAME,
@@ -313,6 +325,8 @@ class SettingsTestCase(test.TestCase):
                              'Enter a valid time.')
         self.assertFormError(response, 'form', '%s__Editable__datetime' % MODULE_NAME,
                              'This field is required.')
+        self.assertFormError(response, 'form', '%s__Editable__datetimens' % MODULE_NAME,
+                             'This field is required.')
 
         # Successful submissions should redirect
         data = {
@@ -323,6 +337,7 @@ class SettingsTestCase(test.TestCase):
             '%s__Editable__date' % MODULE_NAME: '2012-06-28',
             '%s__Editable__time' % MODULE_NAME: '16:37:45',
             '%s__Editable__datetime' % MODULE_NAME: '2012-06-28 16:37:45',
+            '%s__Editable__datetimens' % MODULE_NAME: '2019-07-25 04:44:22.445793',
         }
         response = self.client.post(site_form, data)
         self.assertRedirects(response, site_form)
@@ -335,6 +350,7 @@ class SettingsTestCase(test.TestCase):
         self.assertEqual(Editable.settings.date, datetime.date(2012, 6, 28))
         self.assertEqual(Editable.settings.time, datetime.time(16, 37, 45))
         self.assertEqual(Editable.settings.datetime, datetime.datetime(2012, 6, 28, 16, 37, 45))
+        self.assertEqual(Editable.settings.datetimens, datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
 
         # test non-req submission
         perm = Permission.objects.get(codename='can_edit_nonreq_settings')
@@ -355,15 +371,15 @@ class SettingsTestCase(test.TestCase):
         user.user_permissions.remove(perm)
 
         # Check if module level settings show properly
-        self._test_form_fields(site_form, 8, False)
+        self._test_form_fields(site_form, 9, False)
         # Add perm for whole app
         perm = Permission.objects.get(codename='can_edit__settings')  # module-level settings
         user.user_permissions.add(perm)
-        self._test_form_fields(site_form, 18)
+        self._test_form_fields(site_form, 20)
         # Remove other perms - left only global perm
         perm = Permission.objects.get(codename='can_edit_editable_settings')
         user.user_permissions.remove(perm)
-        self._test_form_fields(site_form, 10)
+        self._test_form_fields(site_form, 11)
 
     def _test_form_fields(self, url, fields_num, present=True, variable_name='form'):
         global_setting = '%s____clash2' % MODULE_NAME  # Some global setting name

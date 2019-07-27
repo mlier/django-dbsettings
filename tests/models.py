@@ -13,6 +13,7 @@ class TestSettings(dbsettings.Group):
     date = dbsettings.DateValue()
     time = dbsettings.TimeValue()
     datetime = dbsettings.DateTimeValue()
+    datetimens = dbsettings.DateTimeValue()
 
 
 class Defaults(models.Model):
@@ -25,6 +26,7 @@ class Defaults(models.Model):
         list_comma = dbsettings.MultiSeparatorValue(separator=',', default=('one', 'two'))
         date = dbsettings.DateValue(default=datetime.date(2012, 3, 14))
         time = dbsettings.TimeValue(default=datetime.time(12, 3, 14))
+        datetimens = dbsettings.DateTimeValue(default=datetime.datetime(2019, 7, 25, 4, 44, 22, 445793))
         datetime = dbsettings.DateTimeValue(default=datetime.datetime(2012, 3, 14, 12, 3, 14))
     settings = settings()
 
