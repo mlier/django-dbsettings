@@ -30,6 +30,8 @@ Requirements
 +------------------+------------+--------------+
 | Dbsettings       | Python     | Django       |
 +==================+============+==============+
+| ==0.11           | 3.7        | 1.10 - 2.2   |
++------------------+------------+--------------+
 | ==0.10           | 3.4 - 3.5  | 1.7 - 1.10   |
 |                  +------------+--------------+
 |                  | 3.2 - 3.3  | 1.7 - 1.8    |
@@ -106,6 +108,16 @@ the rest. You may choose any location you like::
         (r'^settings/', include('dbsettings.urls')),
         ...
     )
+
+or (django 2)::
+
+    from django.urls import path, include
+
+    urlpatterns = [
+        ...
+        path('settings/', include('dbsettings.urls')),
+        ...
+    ]
 
 A note about caching
 --------------------
@@ -493,6 +505,9 @@ some of the settings provided earlier in this document::
 Changelog
 =========
 
+**0.11.0** (29/07/2019)
+    - Added compatibility with Django 1.11, 2.0, 2.1, 2.2
+    - Manage nanosecond datetime settings
 **0.10.0** (25/09/2016)
     - Added compatibility with Django 1.10
 **0.9.3** (02/06/2016)
